@@ -132,4 +132,5 @@ dmypy.json
 
 /app/.env.dev
 /.idea/
-/project/.env.dev
+/.env.dev
+/.env.dev

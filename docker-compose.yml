@@ -4,7 +4,27 @@ services:
   app:
     build: .
     ports:
-    - "8000:8000"
+      - "8000:8000"
     volumes:
-    - ./project:/project
-    command: python manage.py runserver 0.0.0.0:8000
+      - ./project:/project
+    env_file:
+      - ./.env.sample
+    depends_on:
+      - db
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  db:
+    image: postgres:12-alpine
+    env_file:
+      - ./.env.sample
+    # this ports config is for pgadmin
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:

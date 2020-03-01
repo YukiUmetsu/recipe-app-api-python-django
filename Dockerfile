@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev jpeg-dev zlib-dev
+    && apk add postgresql-client postgresql-dev gcc python3-dev musl-dev jpeg-dev zlib-dev libc-dev linux-headers
 RUN pip install --upgrade pip
 
 COPY ./requirements.txt /requirements.txt
