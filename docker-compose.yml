@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+    - "8000:8000"
+    volumes:
+    - ./app:/app
+    depends_on:
+      - db
+    command: >
+      sh -C "python manage.py runserver 0.0.0.0:8000"
+
+  db:
+    image: postgres:12.0-alpine
+    # this ports config is for pgadmin
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - app/.env.dev
+
+volumes:
+  postgres_data:
